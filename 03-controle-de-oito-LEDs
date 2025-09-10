@@ -1,0 +1,210 @@
+Controle de Oito LEDs
+
+Objetivo
+
+Este projeto tem como objetivo criar sequências rítmicas de controle de luz emitida por LEDs, explorando diferentes formas de acendimento e apagamento em série e padrões variados.
+
+Materiais Utilizados
+
+Placa Arduino Uno
+
+4 LEDs vermelhos
+
+4 LEDs amarelos
+
+8 resistores de 330Ω
+
+Protoboard (matriz de contatos)
+
+Jumpers
+
+
+Código (Sketches)
+
+A seguir estão algumas variações possíveis do programa, cada uma demonstrando uma forma diferente de controlar os LEDs:
+
+
+---
+
+Sketch 1 – Acendendo LEDs em sequência (ida e volta)
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int index;
+int delayTime = 100;
+
+void setup() {
+  for(index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+}
+
+void loop() {
+  oneAfterAnotherNoLoop();
+}
+
+void oneAfterAnotherNoLoop() {
+  for(index = 0; index <= 7; index++) {
+    digitalWrite(ledPins[index], HIGH);
+    delay(delayTime);
+  }
+
+  for(index = 7; index >= 0; index--) {
+    digitalWrite(ledPins[index], LOW);
+    delay(delayTime);
+  }
+}
+
+
+---
+
+Sketch 2 – Acendendo LEDs um a um em sequência
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int index;
+int delayTime = 100;
+
+void setup() {
+  for(index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+}
+
+void loop() {
+  oneAfterAnotherLoop();
+}
+
+void oneAfterAnotherLoop() {
+  for(index = 0; index <= 7; index++) {
+    digitalWrite(ledPins[index], HIGH);
+    delay(delayTime);
+  }
+}
+
+
+---
+
+Sketch 3 – Liga e desliga cada LED sequencialmente
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int delayTime = 100;
+
+void setup() {
+  for(int index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+}
+
+void loop() {
+  oneOnAtATime();
+}
+
+void oneOnAtATime() {
+  for(int index = 0; index <= 7; index++) {
+    digitalWrite(ledPins[index], HIGH);
+    delay(delayTime);
+    digitalWrite(ledPins[index], LOW);
+  }
+}
+
+
+---
+
+Sketch 4 – Efeito “Ping Pong”
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int delayTime = 100;
+
+void setup() {
+  for(int index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+}
+
+void loop() {
+  pingPong();
+}
+
+void pingPong() {
+  for(int index = 0; index <= 7; index++) {
+    digitalWrite(ledPins[index], HIGH);
+    delay(delayTime);
+    digitalWrite(ledPins[index], LOW);
+  }
+
+  for(int index = 7; index >= 0; index--) {
+    digitalWrite(ledPins[index], HIGH);
+    delay(delayTime);
+    digitalWrite(ledPins[index], LOW);
+  }
+}
+
+
+---
+
+Sketch 5 – LEDs em pares (amarelos e vermelhos)
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int delayTime = 200;
+
+void setup() {
+  for(int index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+}
+
+void loop() {
+  marquee();
+}
+
+void marquee() {
+  for(int index = 0; index <= 3; index++) {
+    digitalWrite(ledPins[index], HIGH);
+    digitalWrite(ledPins[index+4], HIGH);
+    delay(delayTime);
+    digitalWrite(ledPins[index], LOW);
+    digitalWrite(ledPins[index+4], LOW);
+  }
+}
+
+
+---
+
+Sketch 6 – LEDs acendendo aleatoriamente
+
+int ledPins[] = {2,3,4,5,6,7,8,9};
+int delayTime = 100;
+
+void setup() {
+  for(int index = 0; index <= 7; index++) {
+    pinMode(ledPins[index], OUTPUT);
+  }
+  randomSeed(analogRead(0));
+}
+
+void loop() {
+  randomLED();
+}
+
+void randomLED() {
+  int index = random(8);
+  digitalWrite(ledPins[index], HIGH);
+  delay(delayTime);
+  digitalWrite(ledPins[index], LOW);
+}
+
+
+---
+
+Funcionamento
+
+Sketch 1: LEDs acendem e apagam em sequência, indo do primeiro ao último e depois voltando.
+
+Sketch 2: LEDs acendem um a um, permanecendo ligados.
+
+Sketch 3: Apenas um LED acende por vez, em sequência.
+
+Sketch 4: Efeito de “ping pong”, indo e voltando pelos LEDs.
+
+Sketch 5: LEDs acendem em pares (ex.: vermelhos juntos e amarelos juntos).
+
+Sketch 6: LEDs acendem em ordem aleatória.
